@@ -5,6 +5,9 @@ from .models import Candidate, SocialNetwork, Contact, JobPosting
 from .forms import CandidateForm, SocialNetworkForm, ContactForm, JobPostingForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import AppliedJob
+from django.db.models import Q
 
 # Create your views here.
 
@@ -120,3 +123,38 @@ class JobPostingCreateView(FormView):
         # Here you can perform additional actions if needed before saving
         form.save()  # Save the form data
         return super().form_valid(form)
+    
+
+
+
+class AppliedJobsListView(ListView):
+    model = AppliedJob
+    template_name = 'applied_jobs.html'
+    context_object_name = 'applied_jobs'
+    ordering = ['-date_applied']  # Default ordering by date applied, newest first
+
+    def get_queryset(self):
+        # Fetch applied jobs for the logged-in user
+        queryset = AppliedJob.objects.filter(user=self.request.user).order_by('-date_applied')
+
+        # Search functionality
+        search_query = self.request.GET.get('q')
+        if search_query:
+            queryset = queryset.filter(
+                Q(job__job_title__icontains=search_query) |
+                Q(job__location__icontains=search_query) |
+                Q(job__tag__icontains=search_query)
+            )
+
+        # Sorting functionality
+        sort_by = self.request.GET.get('sort', 'newest')
+        if sort_by == 'oldest':
+            queryset = queryset.order_by('date_applied')
+        else:  # Default to newest
+            queryset = queryset.order_by('-date_applied')
+
+        return queryset
+
+    
+    
+ 

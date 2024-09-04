@@ -85,3 +85,4 @@ class JobPostingForm(forms.ModelForm):
             self.add_error('max_salary', 'Max salary must be greater than or equal to min salary.')
 
         return cleaned_data
+
