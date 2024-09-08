@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Candidate, JobCategories, Language, Qualification, Employer, JobPosting, Category, Location
+from .models import Candidate, JobCategories, Language, Qualification, Employer, JobPosting, Category, Location,AppliedJob
 
 # Register your models here.
 
@@ -17,3 +17,4 @@ class JobPostingAdmin(admin.ModelAdmin):
 admin.site.register(JobPosting, JobPostingAdmin)
 admin.site.register(Category)
 admin.site.register(Location)
+

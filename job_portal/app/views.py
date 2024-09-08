@@ -126,6 +126,7 @@ class JobPostingCreateView(FormView):
     
 
 
+    
 
 class AppliedJobsListView(ListView):
     model = AppliedJob
@@ -134,8 +135,9 @@ class AppliedJobsListView(ListView):
     ordering = ['-date_applied']  # Default ordering by date applied, newest first
 
     def get_queryset(self):
-        # Fetch applied jobs for the logged-in user
-        queryset = AppliedJob.objects.filter(user=self.request.user).order_by('-date_applied')
+        # Fetch applied jobs for the logged-in candidate (via Candidate model)
+        candidate = self.request.user.candidate_profile  
+        queryset = AppliedJob.objects.filter(candidate=candidate).order_by('-date_applied')
 
         # Search functionality
         search_query = self.request.GET.get('q')
@@ -154,7 +156,5 @@ class AppliedJobsListView(ListView):
             queryset = queryset.order_by('-date_applied')
 
         return queryset
-
-    
-    
+   
  

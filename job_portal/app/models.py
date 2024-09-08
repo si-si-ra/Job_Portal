@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import CustomUser
-from django.conf import settings
 
 # Create your models here.
 
@@ -200,13 +199,18 @@ class JobPosting(models.Model):
 
 
 
-
-
 class AppliedJob(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('reviewed', 'Reviewed'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, default=1)
     job = models.ForeignKey(JobPosting, on_delete=models.CASCADE)
-    date_applied = models.DateField()
-    status = models.CharField(max_length=50)  # Adjust choices and max_length as needed
+    date_applied = models.DateField(auto_now_add=True)  # Automatically set the date when the job is applied for
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
 
     def __str__(self):
-        return f"{self.user} applied for {self.job.job_title}"
+        return f"{self.candidate} applied for {self.job.job_title}"

@@ -17,8 +17,8 @@
                 <img src="{% static 'img/candidateprof.png' %}" alt="Profile Picture">
             </div>
             <div class="profile-info">
-                <h2>Candidate</h2>
-                <p>New York</p>
+                <h2>{{ request.user.candidate_profile.fullname }}</h2>
+                <p>{{ request.user.candidate_profile.location }}</p>
                 <button class="view-profile-btn">View Profile</button>
             </div>
         </div>
