@@ -53,8 +53,6 @@ class EmployersListView(TemplateView):
 class JobListView(TemplateView):
     template_name = 'findjoblist.html'
 
-
-
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
