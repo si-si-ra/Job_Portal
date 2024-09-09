@@ -55,8 +55,6 @@ class JobListView(TemplateView):
 
 
 
-
-
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
@@ -126,7 +124,6 @@ class JobPostingCreateView(FormView):
     
 
 
-    
 
 class AppliedJobsListView(ListView):
     model = AppliedJob
@@ -158,3 +155,7 @@ class AppliedJobsListView(ListView):
         return queryset
    
  
+
+
+
+
